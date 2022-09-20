@@ -10,12 +10,6 @@ let file_name = get_input();;
 let file = String.concat file_name [""; ".mycpp"];;
 let write_file_name = String.concat file_name [""; ".bac"];;
 
-(*let message = get_input()*)
-(*This will test the output structure*)
-
-  (*print_string(file_name);;*)
-
-;;
 (*
    Reads a file line by line and then puts it in a list
    *)
@@ -39,16 +33,6 @@ let read_file filename =
 
 (*Return a list of Strings*)
 let x = read_file file;;
-(*Base Write Function
-let () =
-  (* Write message to file *)
-  let oc = open_out file in
-  (* create or truncate file, return channel *)
-  Printf.fprintf oc "%s\n" message;
-  (* write something *)
-  close_out oc;
-
-*)
 
 let testWrite file_write message =
   (* Write message to file *)
@@ -75,25 +59,6 @@ let testWrite file_write message =
    Bool Flag will keep track of this
    
 *)
-(*
-let processString string =
-  let rec pString string i commentActive acc =
-    if (i < (String.length string)) then
-      if (string.[i] != ' '  && commentActive == false && string.[i] != '\n' && string.[i] != '/' )
-      then (pString string (i + 1) false (String.concat acc [""; (String.make 1 string.[i])]))
-      else if (string.[i] != '/' && i < (String.length string) - 1) then if string.[i + 1] != '/' then acc
-        else String.concat acc [""; "ERROR: Invalid Comment Syntax"]
-      else if (string.[i] == ' ' && acc.[(String.length acc) - 1] != ' ' && i < (String.length string) - 1) then (pString string (i + 1) false (String.concat acc [""; (String.make 1 string.[i])]))
-      else if(string.[i] == ' ' && acc.[(String.length acc) - 1] == ' ' && i < (String.length string)-1) then(pString string (i + 1) false acc)
-      else if (string.[i] == '\n' && acc.[(String.length acc) - 1] != ' ') then pString string (i + 1) false (String.concat acc [""; " "])
-      else if (string.[i] == '\n' && acc.[(String.length acc) - 1] == ' ') then (pString string (i + 1) false acc)
-      else acc
-    else acc
-  in pString string 0 false ""
-;;
-  *)
-
-(*To Add-> "" Strings then done*)
 
 let processString string =
   let rec pString string i singleCommentActive multiActive stringMode acc = 
