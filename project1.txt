@@ -1,0 +1,122 @@
+
+Project 1, due by Sep 18, 2022 11:30 PM.
+20 points
+
+Write a program (a simple lexical scanner) that works by removing all comments and replacing consecutive whitespace characters with a single space (i.e., ' '). Creating tokens is not part of this project.
+
+- Before you start, read Section 2.6 Lexical Analysis.
+- Write the scanner in OCaml.
+- The source file is written in MyC++.
+- "MyC++" is our fake programming language that is very similar to C++, and all source files written in this language have the extension .mycpp. Comments of this language are the same as C++ comments. Meaning, it has two ways to write comments:
+
+
+- "//" to create a single line comment
+- "/*" to start a multi-line comment
+- "*/" to terminate a multi-line comment
+
+- The double slashes have to be consecutive with no space between them. The same applies to /* and */.
+- To work on this project, you do not need to know the complete description of MyC++.
+- Your OCaml program must take as input a .mycpp source file and create a temporary backup file .bac with the same name as the source file (e.g., source1.mycpp -> source1.bac). 
+- The output file has the same source code cleared from all consecutive whitespace characters and all comments. 
+- Your program must accept only .mycpp files. 
+- Your scanner shows an error if the source file contains a multi-line comment that starts and never ends.
+Your scanner should provide the line number that has an error. For example, if the source file to be scanned is source1.mycpp and contains the following:
+
+1: int main( )
+2: {
+3: int a = 5;
+4: long f = 1;
+5: /* the purpose of this
+6: for loop is to calculate the factorial
+7: for( int i = 2; I <= a ; i++)
+8: {
+9: f = f * i;
+10: }
+11: cout << a << “factorial is ” << f << endl;
+12:}
+
+The output should be an error message that indicates the line number:
+
+source1.mycpp: Error in line 5: unclosed comment
+
+- Your scanner must ignore comments that are part of literal strings. For example:
+
+		cout << "Hello World /* $$$$ this should be ignored ### */" << "This is weird" << end;
+
+The comment above is enclosed in a string literal, so it should not be deleted.
+
+Submit only your OCaml program .ml to Dropbox.
+
+You can use the attached test files (.mycpp) to ensure your code works fine for various test cases.
+
+
+
+Example (1):
+
+	Input (e.g., source1.mycpp)
+	
+		int main()
+		{
+		  // the lexical program source file
+		  // project 1
+		  int a := 10; int b,  c  =13;
+		  
+		  /* computing 
+		     a + c
+		  */
+		     b := a + c;
+
+		  cout<< "Sum"<< b; return 0 ;
+		}
+
+	Output (e.g., source1.bat)
+
+		int main() { int a := 10; int b, c = 13; b := a + c; cout<< "Sum"<< b); r eturn 0 ; }
+
+Example (2):
+
+	Input (e.g., source2.mycpp)
+
+		int main()
+		{
+
+		// source2.mycpp
+		// fall 2020
+
+		int a := 10; int b,  c  =13;
+
+		b := a +  
+
+		c; 
+		cout<< "Sum     /*    $$ $$ $$ */ "<< b;
+
+		return 0 ;
+		}
+
+	Output (e.g., source2.bat)
+
+		int main() { int a := 10; int b, c = 13; b := a + c; cout<< "Sum     /*    $$ $$ $$ */ "<< b; return 0 ; }
+
+
+
+Grading criteria:
+
+- The program compiles/runs  (1 pts)
+- Reading MYC++ (.mycpp) files  (2 pts)
+- Creating .bak file  (2 pts)
+- The program must accept only .mycpp files  (1 pts)
+- Test1: Multiple whitespace (space) characters to a single space  (2 pts)
+- Test2: Multiple whitespace (tab) characters to a single space  (2 pts)
+- Test3: Multiple whitespace (newline) characters to a single space  (2 pts)
+- Test4: A source file with one single-line comment and one multi-line comment  (2 pts)
+- Test5: A source file with multiple single-line/multi-line comments  (2 pts)
+- Test6: A source file with a multi-line comment inside quotation marks  (2 pts)
+- Test7: A source file with a multi-line comment that starts and never ends (2 pts)
+
+
+
+
+
+
+
+

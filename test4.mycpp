@@ -1,0 +1,32 @@
+two //
+one  /**/
+newlines
+space charcters 
+int main()
+{
+
+	/   *    *   /
+	/  /
+
+	// This is one of the test programs that you are going to use to test 
+		/ / your project 1.
+
+	int a := 10;
+
+	int b,      c  =13;
+	
+	/*
+
+		Should this line be considered as a multiline comment?
+
+*/
+
+		b := a +  
+c; 
+
+	write("Sum", b);
+
+	return 0 ;
+
+
+}
