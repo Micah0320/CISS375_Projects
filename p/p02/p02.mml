@@ -1,15 +1,18 @@
-(*
-   Micah Arndt
-   p01.ml
-   *)
-
+(*Header Section*)
+{
 let get_input = read_line;;
 
 (*This Gets the File that serves as input*)
 let file_name = get_input();;
 let file = String.concat file_name [""; ".mycpp"];;
-let write_file_name = String.concat file_name [""; ".bac"];;
+let write_file_name = String.concat file_name ["inter"; ".mycpp"];;
 
+(*let message = get_input()*)
+(*This will test the output structure*)
+
+  (*print_string(file_name);;*)
+
+;;
 (*
    Reads a file line by line and then puts it in a list
    *)
@@ -33,6 +36,16 @@ let read_file filename =
 
 (*Return a list of Strings*)
 let x = read_file file;;
+(*Base Write Function
+let () =
+  (* Write message to file *)
+  let oc = open_out file in
+  (* create or truncate file, return channel *)
+  Printf.fprintf oc "%s\n" message;
+  (* write something *)
+  close_out oc;
+
+*)
 
 let testWrite file_write message =
   (* Write message to file *)
@@ -48,17 +61,7 @@ let testWrite file_write message =
   into one large string. This will also be responsible for creating
   the write rules*)
 
-(*
-   Rules to Consider:
-   // -> Single Line Comment- Replace with one space and skip line
-   /**/ -> Multi-line Coment -> Set Comment flag until you see a */ Replace with
-                                a space
-   /n, ,/t -> replace with one space
 
-   only one whitespace tab should be written in between non-whitespace chars.
-   Bool Flag will keep track of this
-   
-*)
 
 let processString string =
   let rec pString string i singleCommentActive multiActive stringMode acc = 
@@ -70,16 +73,19 @@ let processString string =
           then (pString string (i + 1) singleCommentActive multiActive stringMode(String.concat acc [""; " "]))
           else (pString string (i + 1) singleCommentActive multiActive stringMode acc)
         else(pString string (i + 1) singleCommentActive multiActive stringMode (String.concat acc [""; " "]))
+
       (* Tab Case*)
       | '\t' -> if String.length acc > 0 then if acc.[(String.length acc) - 1] != ' '
           then (pString string (i + 1) singleCommentActive multiActive stringMode (String.concat acc [""; " "]))
           else (pString string (i + 1) false multiActive stringMode acc)
         else (pString string (i + 1) singleCommentActive multiActive stringMode (String.concat acc [""; " "]))
       (* Newline Case *)
-      | '\n' -> if String.length acc > 0 then if (acc.[(String.length acc) - 1] != ' ' && stringMode == false)
+      | '\n' -> 
+        if (String.length acc > 0)  then if (acc.[(String.length acc) - 1] != ' ' && stringMode == false)
           then (pString string (i + 1) false multiActive stringMode (String.concat acc [""; " "]))
-          else if(stringMode == true) then (pString string (i + 1) false multiActive stringMode (String.concat acc [""; " "]))
+          else if(stringMode == true) then (pString string (i + 1) false multiActive stringMode (String.concat acc [""; "\n"]))
           else (pString string (i + 1) false multiActive stringMode acc)
+        else if ((String.length acc > 0) && (acc.[(String.length acc) - 1] == ' '))   then (pString string (i + 1) false multiActive stringMode acc)
         else (pString string (i + 1) false multiActive stringMode (String.concat acc [""; " "]))
       (* Comment Case*)
       | '/' -> if String.length acc > 0 then if (string.[i + 1] == '/' && acc.[(String.length acc) - 1] != ' ') then pString string (i + 2) true multiActive stringMode (String.concat acc [""; " "])
@@ -98,21 +104,75 @@ let processString string =
           else pString string (i + 1) false false true (String.concat acc[""; "\""])
         else pString string (i + 1) singleCommentActive multiActive false acc
       | _ -> if (singleCommentActive == false && multiActive == false) then (pString string (i + 1) singleCommentActive multiActive stringMode (String.concat acc [""; (String.make 1 string.[i])])) 
-            else (pString string (i + 1) true multiActive stringMode acc)
+            else (pString string (i + 1) singleCommentActive multiActive stringMode acc)
     else if (multiActive == true) then acc ^ "ERROR: Unending Comment"
     else
       acc
   in pString string 0 false false false ""
 ;;
 
+
   
 (*Gets the code as one big string*)
 let rec messageConcat message_list acc = match message_list with
     [] -> acc
-  |x::xs ->  messageConcat xs (String.concat acc [""; x]);;
+  |x::xs ->  messageConcat xs (String.concat "" [(String.concat acc [""; x]); "\n"]);;
+
 
 let m = (messageConcat x "");;
 testWrite write_file_name (processString m);;
 
+let intermediate = read_file write_file_name;;
+let interString = messageConcat intermediate "";;
+let outFile =  String.concat file_name [""; ".bac"];;
+
+}
 
 
+(* Definitions *)
+let op = ['+' '-' '*' '/' '>' '<'] | ":=" | "=="| "<>"| "<="|  ">="
+let delim = [';' ':' '(' ')' '[' ']']
+let digits = ['0' - '9']
+let int = digits*
+let float = digits* '.' digits+
+let numError = int '.'
+let num = int | float
+let keywords = "begin"| "end"| "if"| "then"| "else"| "goto"| "while"| "label"| "do"| "integer"| "real" |"string"
+let string = '"'_*'"'
+let letters = ['a' - 'z']
+let idDig = (letters|digits)
+let id = letters (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)?
+let space = ' ' | '\n'
+let idError = letters (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)? (idDig)+
+
+let commentSyntaxError = "ERROR: Invalid Comment Syntax"
+let unendingCommentError = "ERROR: Unending Comment"
+
+let commentError = commentSyntaxError | unendingCommentError
+
+
+(* Rules *)
+rule myLexer acc lineNum = parse
+|space {myLexer acc lineNum lexbuf}
+|op as oper {myLexer (String.concat acc [""; String.concat "" [(String.concat "" ["OpTok: "; oper]); "\n"]]) lineNum lexbuf}
+
+|delim as del {myLexer (String.concat acc [""; String.concat "" [(String.concat "" ["DelimTok: "; String.make 1 del]); "\n"]]) (if del == ';' then lineNum + 1 else lineNum) lexbuf}
+
+|num as n {myLexer (String.concat acc [""; String.concat "" [(String.concat "" ["NumTok: "; n]); "\n"]]) lineNum lexbuf}
+
+|keywords as key {myLexer (String.concat acc [""; String.concat "" [(String.concat "" ["KeyWordTok: "; key]); "\n"]]) (lineNum + 1) lexbuf}
+
+|id as var {myLexer (String.concat acc [""; String.concat "" [(String.concat "" ["IdentTok: "; var]); "\n"]]) lineNum lexbuf}
+|idError {testWrite outFile (String.concat acc [""; String.concat "" ["Variable Name exceeds max length on line: "; string_of_int(lineNum);]])}
+|numError {testWrite outFile (String.concat acc [""; String.concat "" ["Unrecognized characters at line: "; string_of_int(lineNum);]])}
+|commentError{testWrite outFile (String.concat acc [""; String.concat "" ["Commenterror at line: "; string_of_int(lineNum);]])}
+
+|eof {testWrite outFile acc}
+|_ {testWrite outFile (String.concat acc [""; String.concat "" ["Unrecognized characters at line: "; string_of_int(lineNum);]])}
+
+
+(*Footer*)
+{
+let lexbuf = Lexing.from_string interString in myLexer "" 0 lexbuf;;
+
+}

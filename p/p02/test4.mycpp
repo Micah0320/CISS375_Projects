@@ -1,0 +1,13 @@
+//this program has a lexical error in line 6
+begin
+	integer a1;
+	real b1;
+	a1 := 100;
+	b1 := 10.;
+	integer c1;
+	c1 := a1 + 10;
+	while (c1 < 100)
+	begin
+		c1 := c1 + 2;
+	end
+end
