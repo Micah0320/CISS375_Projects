@@ -1,6 +1,4 @@
 /* file: calc1.mly */
-/* Calculator */
-/*Place HashTable Here*/
 %{
     open Printf;;
     let sym_table = Hashtbl.create 100;;
