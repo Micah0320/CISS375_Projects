@@ -1,0 +1,10 @@
+PROGRAM
+ INTEGER a;
+ REAL b;
+BEGIN
+b := 2.3;
+a := 10;
+WRITE a;
+WRITE b;
+WRITE c;
+END;

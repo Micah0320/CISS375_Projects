@@ -1,0 +1,6 @@
+PROGRAM
+REAL a;
+BEGIN
+a := 1;
+WRITE 10.0 * a;
+END;

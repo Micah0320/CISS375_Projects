@@ -1,0 +1,6 @@
+PROGRAM
+STRING s;
+BEGIN
+s := "Hello World!";
+WRITE s;
+END;

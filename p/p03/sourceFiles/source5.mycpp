@@ -1,0 +1,7 @@
+PROGRAM
+REAL a;
+REAL a;
+BEGIN
+a := 1.5;
+WRITE 10 * a;
+END;
